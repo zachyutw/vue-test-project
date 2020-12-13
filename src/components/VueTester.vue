@@ -10,23 +10,29 @@
     <div>
       {{ input }}
     </div>
+    <div>
+      <p>Message</p>
+      {{ message }}
+    </div>
   </div>
 </template>
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
-const isEmail = () => {
+const isEmail = (email) => {
   const re = /\S+@\S+\.\S+/;
-  return (input) => (re.test(input) ? null : "Must be a valid email address");
+  return re.test(email) ? null : "Must be a valid email address";
 };
 
 const useInputValidator = (startVal, onValidate) => {
   const input = ref(startVal);
+  const errors = ref(null);
   watch(input, (value) => {
-    onValidate(value);
+    errors.value = onValidate(value);
   });
   return {
     input,
+    errors,
   };
 };
 export default {
@@ -36,13 +42,15 @@ export default {
   },
   setup(props, { emit }) {
     const email = ref("");
-    const { input, errors } = useInputValidator(email.value, isEmail(), (value) =>
-      emit("input", value)
-    );
-    console.log(emit);
+    const { input, errors } = useInputValidator(email.value, isEmail);
+    const message = computed({
+      get: () => props.value,
+      set: (value) => emit("update:value", value),
+    });
     return {
       input,
       errors,
+      message,
     };
   },
 };

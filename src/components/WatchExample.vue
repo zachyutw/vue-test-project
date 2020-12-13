@@ -9,16 +9,17 @@
 import { ref, watch, computed } from "vue";
 
 export default {
-  setup() {
+  setup(props, { emit }) {
     const initSearch = "";
     const search = ref(initSearch);
     const stringTest = ref("");
     watch(
       () => search.value,
       (value, state) => {
-        console.log(search.value, "search");
-        console.log(value, "new value");
-        console.log(state, "last state");
+        emit("update:search", search.value);
+        // console.log(search.value, "search");
+        // console.log(value, "new value");
+        // console.log(state, "last state");
       }
     );
 
