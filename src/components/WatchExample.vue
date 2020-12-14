@@ -33,16 +33,16 @@ export default {
 
     const stringPlus = computed({
       get: () => search.value + "+",
-      set: (val) => {
+      set: val => {
         stringTest.value = val + "123";
         console.log(val);
-      },
+      }
     });
     return {
       search,
       clear,
-      stringPlus,
+      stringPlus
     };
-  },
+  }
 };
 </script>

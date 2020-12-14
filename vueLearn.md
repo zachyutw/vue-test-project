@@ -273,3 +273,76 @@ const ReactInput = ({onChange=()=>{},value})=>{
     </div>
 }
 ```
+
+## inherit attrs / slot
+
+### Vue
+
+Parent
+
+```Javascript
+<template>
+    <Button text="Button slot tester" :data-name="123" data-test="test-id" />
+    <Button text="Button slot tester" :data-name="123" data-test="test-id">
+        Button slot tester
+    </Button>
+</template>
+```
+
+Child
+
+```Javascript
+<template>
+  <button v-bind="$attrs">
+    <slot>{{ text }}</slot>
+  </button>
+</template>
+<script>
+export default {
+  inheritAttrs: false,
+  props: {
+    text: String,
+    name: String,
+  },
+  setup(props) {
+    return {};
+  },
+};
+</script>
+
+```
+
+### React
+
+### Parent
+
+```JSX
+    const Parent = ()=>{
+        return <>
+            <Button text="Button slot tester" data-name="123" data-test="test-id"  />
+            <Button text="Button slot tester" data-name="123" data-test="test-id" >
+                Button slot tester
+            </Button>
+        </>
+    }
+```
+
+### Children
+
+```JSX
+    const Child = ({text,children,...rest})=>{
+        return <button {...rest}>
+            {text || children}
+        </button>
+    }
+```
+
+
+# Vuex
+## Vuex vs Redux
+
+- getters === useSelector()
+- mutations === reducers
+- actions(context,payload)  === actions ()=>()=>{}
+- commit === dispatch
+- dispatch === dispatch function
