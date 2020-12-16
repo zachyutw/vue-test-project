@@ -15,7 +15,7 @@ export default {
     const stringTest = ref("");
     watch(
       () => search.value,
-      (value, state) => {
+      () => {
         emit("update:search", search.value);
         // console.log(search.value, "search");
         // console.log(value, "new value");

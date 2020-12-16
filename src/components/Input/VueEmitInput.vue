@@ -22,18 +22,18 @@ import { computed } from "vue";
 export default {
   name: "EmitInput",
   props: {
-    modelValue: String,
+    modelValue: String
   },
   setup(props, { emit }) {
     const message = computed({
       get: () => props.modelValue,
-      set: (value) => emit("update:modelValue", value),
+      set: value => emit("update:modelValue", value)
     });
-    const onInput = (event) => emit("update:modelValue", event.target.value);
+    const onInput = event => emit("update:modelValue", event.target.value);
     return {
       message,
-      onInput,
+      onInput
     };
-  },
+  }
 };
 </script>

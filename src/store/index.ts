@@ -1,9 +1,7 @@
-import { createStore } from "vuex";
-import youtubeVideo from "@/store/youtubeVideoModule";
+import { createStore, createLogger } from "vuex";
+import youtubeVideo from "@/store/modules/youtubeVideoModule";
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
+  plugins: [createLogger()],
   modules: {
     youtubeVideo
   }

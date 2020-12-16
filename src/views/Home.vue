@@ -1,11 +1,18 @@
 <script lang="ts">
+import { mapGetters } from "vuex";
+import SearchBar from "@/components/Search/SearchBar.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import UserModel from "@/models/UserModel";
 import WatchExample from "@/components/WatchExample.vue";
 import VueTester from "@/components/VueTester.vue";
 import VueEmitInput from "@/components/Input/VueEmitInput.vue";
 import Button from "@/components/Button/Button.vue"; // @ is an alias to /src
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, computed } from "vue";
+import { MutationTypes } from "@/store/modules/youtubeVideoModule";
+import store from "@/store";
+import useSearchControl, {
+  mapGettersList
+} from "@/features/Search/useSearchControl";
 
 export default {
   name: "Home",
@@ -14,9 +21,24 @@ export default {
     WatchExample,
     VueTester,
     VueEmitInput,
-    Button
+    Button,
+    SearchBar
+  },
+  // mounted() {
+  //   store.dispatch(MutationTypes.SET_QUERY, "test");
+  //   console.log(store["state"]);
+  // },
+  computed: {
+    ...mapGetters(mapGettersList)
+  },
+  watch: {
+    ["$store.getters.start"](newValue: any, oldValue: any) {
+      console.log(`Updating from ${oldValue} to ${newValue}`);
+    }
   },
   setup() {
+    const { search, onSearchSubmit } = useSearchControl();
+
     const msg = ref(0);
     const emitValue = ref("");
     const message = ref("333");
@@ -29,9 +51,12 @@ export default {
       abc: "123"
     } as UserModel);
     const handleOnClick = () => msg.value++;
-    watch(message, () => {
-      console.log(message.value);
+    watch(search, () => {
+      // console.log(search.value);
     });
+
+    // console.log(search.value);
+
     return {
       msg,
       handleOnClick,
@@ -39,7 +64,9 @@ export default {
       message,
       test: "text",
       emitValue,
-      isDraft: true
+      isDraft: true,
+      search,
+      onSearchSubmit
     };
   }
 };
@@ -47,6 +74,12 @@ export default {
 
 <template>
   <div :data-testid="test" id="home" class="home">
+    <div id="searchBar">
+      <h1>{{ q }}</h1>
+      <nav class="navbar container">
+        <SearchBar v-model="search" @click="onSearchSubmit" />
+      </nav>
+    </div>
     <img alt="Vue logo" src="../assets/logo.png" />
     <Button
       class="btn btn-primary"
@@ -62,7 +95,7 @@ export default {
     >
       Button slot tester
     </Button>
-    <TestInput />
+    <!-- <TestInput /> -->
     <VueEmitInput v-model="message" />
     <VueTester v-model="message" />
     <WatchExample />
@@ -72,3 +105,12 @@ export default {
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
+
+<style lang="scss">
+#searchBar {
+  background-color: #ff5556;
+  nav {
+    justify-content: center;
+  }
+}
+</style>

@@ -1,7 +1,12 @@
 const localJSON = {
   getItem: (itemKey: string) => {
     try {
-      return JSON.parse(localStorage.getItem(itemKey) || "");
+      const item: string | null = localStorage.getItem(itemKey);
+      if (item == null) {
+        return null;
+      } else {
+        return JSON.parse(item);
+      }
     } catch (err) {
       console.error(err);
       return null;

@@ -10,7 +10,7 @@ export default {
     text: String,
     name: String
   },
-  setup(props) {
+  setup() {
     return {};
   }
 };
