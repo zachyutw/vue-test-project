@@ -1,34 +1,10 @@
-# vue-test-project
+# Youtube Search With Vue3 composition api, vuex, and typescript
 
-## Project setup
-```
-yarn install
-```
+## Repo
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+[https://github.com/zachyutw/vue-test-project](https://github.com/zachyutw/vue-test-project)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Demo
 
-### Run your unit tests
-```
-yarn test:unit
-```
+[https://vue-test-project-beta.vercel.app/](https://vue-test-project-beta.vercel.app/)
 
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
