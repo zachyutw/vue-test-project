@@ -7,7 +7,8 @@ export default {
   name: "SearchBar",
   props: {
     modelValue: String,
-    onClick: Function
+    onClick: Function,
+    onClickClear: Function
   },
   setup(props, { emit }) {
     const search = computed({
@@ -20,9 +21,16 @@ export default {
       }
       props.onClick(props.modelValue);
     };
+    const handleOnClickClear = () => {
+      emit("update:modelValue", "");
+      props.onClickClear();
+    };
+    const showCloseBtn = computed(() => props.modelValue.length > 0);
     return {
       search,
-      handleOnClick
+      handleOnClickClear,
+      handleOnClick,
+      showCloseBtn
     };
   }
 };
@@ -39,9 +47,17 @@ export default {
         placeholder="熱門音樂"
       />
       <button
+        v-show="showCloseBtn"
+        type="button"
+        @click="handleOnClickClear"
+        class="icon-append close-btn btn btn-secondary"
+      >
+        <i class="fas fa-times" />
+      </button>
+      <button
         type="button"
         @click="handleOnClick"
-        class="icon-append btn btn-secondary"
+        class="icon-append search-btn btn btn-secondary"
       >
         <i class="fa fa-search" />
       </button>
@@ -57,8 +73,7 @@ export default {
     position: relative;
     .icon-append {
       position: absolute;
-      right: 0;
-      top: 0;
+
       height: 100%;
       display: flex;
       align-items: center;
@@ -67,7 +82,15 @@ export default {
       background-color: transparent;
       border-color: transparent;
     }
-    i.fa-search {
+    .search-btn {
+      right: 0;
+      top: 0;
+    }
+    .close-btn {
+      right: 40px;
+      top: 0;
+    }
+    i {
       color: white;
     }
   }
@@ -79,20 +102,20 @@ export default {
     border-left: none;
     border-right: none;
     border-bottom: 1px solid #fff;
-    transition: border-bottom 0.15s ease-in-out;
+    transition: border-bottom 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     padding-left: 0;
     &::placeholder {
       color: #fff;
     }
     &:hover {
-      border-bottom: 2px solid #fff;
-      transition: border-bottom 0.15s ease-in-out;
+      border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+      transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     }
     &:focus {
       border-color: unset;
       box-shadow: unset;
       border-bottom: 2px solid #fff;
-      transition: border-bottom 0.15s ease-in-out;
+      transition: border-bottom 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     }
   }
 }

@@ -30,7 +30,7 @@ const initialState: YoutubeModuleState = {
   loading: null,
   error: {},
   params: {
-    q: localStorage.getItem(IDS.videoQ) || "tt",
+    q: localStorage.getItem(IDS.videoQ) || "",
     pageToken: undefined
   }
 };
@@ -59,9 +59,9 @@ const actions = {
       .then(data => context.commit(RECEIVED_VIDEOS, data))
       .catch(error => context.commit(MutationTypes.ERROR, error));
   },
-  async [LOAD_MORE_VIDEOS](context: any) {
+  async [LOAD_MORE_VIDEOS](context: any, params: any) {
     context.commit(PENDING);
-    return searchYoutube(context.getters.params)
+    return searchYoutube(params)
       .then(data => context.commit(CONCAT_VIDEO_TO_ITEMS, data))
       .catch(error => context.commit(MutationTypes.ERROR, error));
   },
@@ -71,7 +71,7 @@ const actions = {
   [MutationTypes.SET_START](context: any, start: number) {
     context.commit(MutationTypes.SET_START, start);
     if (start === context.getters.items.length) {
-      context.dispatch(LOAD_MORE_VIDEOS);
+      context.dispatch(LOAD_MORE_VIDEOS, context.getters.params);
     }
   }
 };

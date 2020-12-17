@@ -57,7 +57,8 @@ export type YoutubeSearchResp = {
   items: YoutubeSearchResultItem[];
 };
 
-export const searchYoutubeReal = async (params: any) => {
+export const searchYoutube = async (params: any) => {
+  console.log(params);
   const resp = await instance.get("", {
     params: { ...defaultParams, ...params }
   });
@@ -65,7 +66,7 @@ export const searchYoutubeReal = async (params: any) => {
   return resp.data;
 };
 
-export const searchYoutube = async (params: any) => {
+export const searchYoutubeMock = async (params: any) => {
   console.log(params);
   return Promise.resolve(mockDate);
 };
