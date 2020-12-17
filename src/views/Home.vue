@@ -10,6 +10,7 @@ import Button from "@/components/Button/Button.vue"; // @ is an alias to /src
 import { ref, reactive, watch, computed } from "vue";
 import { MutationTypes } from "@/store/modules/youtubeVideoModule";
 import store from "@/store";
+import YoutubeVideoCard from "@/components/Youtube/YoutubeVideoCard.vue";
 import useSearchControl, {
   mapGettersList
 } from "@/features/Search/useSearchControl";
@@ -22,7 +23,8 @@ export default {
     VueTester,
     VueEmitInput,
     Button,
-    SearchBar
+    SearchBar,
+    YoutubeVideoCard
   },
   // mounted() {
   //   store.dispatch(MutationTypes.SET_QUERY, "test");
@@ -32,7 +34,7 @@ export default {
     ...mapGetters(mapGettersList)
   },
   watch: {
-    ["$store.getters.start"](newValue: any, oldValue: any) {
+    ["$store.getters.params"](newValue: any, oldValue: any) {
       console.log(`Updating from ${oldValue} to ${newValue}`);
     }
   },
@@ -75,11 +77,20 @@ export default {
 <template>
   <div :data-testid="test" id="home" class="home">
     <div id="searchBar">
-      <h1>{{ q }}</h1>
       <nav class="navbar container">
         <SearchBar v-model="search" @click="onSearchSubmit" />
       </nav>
     </div>
+    <main>
+      <div class="container">
+        <div id="videosGrid">
+          <div class="videoItem" v-for="item in items" :key="item.etag">
+            <YoutubeVideoCard class="hvr-glow" :data="item" :key="item.etag" />
+          </div>
+        </div>
+      </div>
+    </main>
+
     <img alt="Vue logo" src="../assets/logo.png" />
     <Button
       class="btn btn-primary"
@@ -110,7 +121,33 @@ export default {
 #searchBar {
   background-color: #ff5556;
   nav {
+    width: 60%;
     justify-content: center;
   }
+}
+#videosGrid {
+  $bs-xs: 576px;
+  $bs-sm: 768px;
+  display: grid;
+  padding: 28px;
+  grid-template-columns: 33% 33% 33%;
+  @media (max-width: $bs-sm) {
+    grid-template-columns: 50% 50%;
+  }
+  @media (max-width: $bs-xs) {
+    grid-template-columns: 100%;
+  }
+}
+.videoItem {
+  padding: 14px;
+  .videoItemContent {
+    background: #ff5556;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* outline: 14px solid blue; */
 }
 </style>

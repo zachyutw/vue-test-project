@@ -84,6 +84,10 @@ export default {
     &::placeholder {
       color: #fff;
     }
+    &:hover {
+      border-bottom: 2px solid #fff;
+      transition: border-bottom 0.15s ease-in-out;
+    }
     &:focus {
       border-color: unset;
       box-shadow: unset;

@@ -8,7 +8,7 @@ import {
 } from "@/store/modules/youtubeVideoModule";
 
 export default function() {
-  const search = ref("");
+  const search = ref(store.getters.q);
   onBeforeMount(() => {
     store.dispatch(ActoinTypes.SEARCH_VIDEOS);
   });
